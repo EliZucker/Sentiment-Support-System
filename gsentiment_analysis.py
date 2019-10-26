@@ -22,8 +22,7 @@ class sentiment_analysis:
         response = self.client.analyze_sentiment(document, encoding_type=enums.EncodingType.UTF8)
         return response.document_sentiment.score
 
+    def get_bulk_sentiment(self, data: list):
+        return map(self.get_sentiment, data)
 
-if __name__ == '__main__':
-    sa = sentiment_analysis()
-    sentiment = sa.get_sentiment('i did nothing today and i feel ok')
-    print(sentiment)
+
