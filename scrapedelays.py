@@ -7,12 +7,14 @@ import pandas as pd
 # from lxml import html 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import signal
+import sys
 
 def login():
 	browser.open('https://flightaware.com/account/login')
 	forms = browser.get_forms()
 	form = forms[8]
-	form['flightaware_username'] = "areuter12003310@gmail.com"
+	form['flightaware_username'] = "andysknoblock@yahoo.com"
 	form['flightaware_password'] = "123456A"
 	browser.submit_form(form)
 
@@ -20,8 +22,12 @@ def login():
 def get_delay_for_flight(link):
 	url = link
 	driver.get(url)
-	print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
-	driver.quit()
+	delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
+	if(delay_descrip.find("late") is -1):
+		return 0
+	else:
+		return 1
+	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
 def get_flight_links(flight):
 	url = "https://flightaware.com/live/flight/" + str(flight) + "/history/80"
@@ -39,12 +45,46 @@ def get_flight_links(flight):
 	# print(driver.find_elements_by_class_name("tablesaw-cell-content"))
 
 
+# def get_flight_delay_data(flight):
+# 	links = get_flight_links("JBU101")
+# 	# print(links)
+# 	delays = 0
+# 	tot = 0
+# 	for link in links:
+# 		delays = delays + get_delay_for_flight(link)
+# 		tot = tot + 1
+
+# 	print(delays)
+# 	print(tot)
+# 	return ***REMOVED***"delayed": delays, "tot": tot***REMOVED***
+
+
+def signal_handler(sig, frame):
+        print('You pressed Ctrl+C!')
+        driver.quit()
+        sys.exit(0)
+
+	
+signal.signal(signal.SIGINT, signal_handler)
 browser = RoboBrowser(user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36')
 login()
 driver = webdriver.PhantomJS()
 driver.set_window_size(1120, 550)
-print(get_delay_for_flight("https://flightaware.com/live/flight/JBU101/history/20191027/2321Z/KFLL/KLAX"))
-print(get_flight_links("JBU101"))
+links = get_flight_links("JBU101")
+# print(links)
+delays = 0
+tot = 0
+for link in links:
+	print(link)
+	delays = delays + get_delay_for_flight(link)
+	tot = tot + 1
+	print("Delay: " + str(delays) + " Tot: " + str(tot))
+
+
+# link = "https://flightaware.com/live/flight/JBU1056/history/20191026/1926Z/MBPV/KJFK"
+# get_delay_for_flight(link)
+driver.quit()
+
 
 # driver = webdriver.PhantomJS()
 # driver.set_window_size(1120, 550)
