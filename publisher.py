@@ -7,11 +7,11 @@ topic_name = "customer-posts"
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_name)
 
-def send_customer_message(message, date):
+def send_customer_message(post_id, message, date):
     date_string = date.strftime("%m/%d/%Y, %H:%M:%S")
     # Data must be a bytestring
     data = message.encode('utf-8')
     # Add date attribute to the message and publish
     publisher.publish(
-        topic_path, data, date=date_string
+        topic_path, post_id, data, date=date_string
     )

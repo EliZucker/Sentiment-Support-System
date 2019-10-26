@@ -1,5 +1,21 @@
 from twitterscraper import query_tweets
 import datetime
+import publisher
+from util import setup_credentials
+import subscriber
+import time
+import os
+import re
+from robobrowser import RoboBrowser
+
+browser = RoboBrowser(history=True)
+
+# enter dates as strings in the form yyyy-mm-dd so March 3rd 2019 would be 2019-03-03
+def post_query(start_date, end_date):
+    browser.open('https://twitter.com/search?q=jetblue%20until%3A' + start_date +
+                 '%20since%3A' + end_date + '&src=typedquery&f=live')
+
+setup_credentials()
 
 #input starting and ending datetime objects for range and any search terms (as one string). If we wanted
 #all jetblue query strings would just be "jetblue" if we wanted cancellations query strings would be
@@ -10,26 +26,26 @@ def post_query(start_date, end_date, query_strings="jetblue"):
         start_date += datetime.timedelta(days=1)
         end_string = str(start_date.year) + "-" + str(start_date.month) + "-" + str(start_date.day)
         tweets = query_tweets(query_strings + " until:" + end_string + " since:" + start_string)
-        # publish tweets
-
-post_query(datetime.date(2019,3,30), datetime.date(2019,4,15))
-
+        for tweet in tweets:
+            publisher.send_customer_message(tweet.id, tweet.text, tweet.timestamp)
 
 
+post_query(datetime.date(2019,3,2), datetime.date(2019,3,3))
 
-
-
-
-
-# import re
-#     from robobrowser import RoboBrowser
+# credential_path = "YHack-2019-a87246a5ff6d.json"
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 #
-#     browser = RoboBrowser(history=True)
+# def callback(message, date):
+#     print(message)
+#     print(date)
 #
-#     # enter dates as strings in the form yyyy-mm-dd so March 3rd 2019 would be 2019-03-03
-#     def post_query(start_date, end_date):
-#         browser.open('https://twitter.com/search?q=jetblue%20until%3A' + start_date +
-#                      '%20since%3A' + end_date + '&src=typedquery&f=live')
+# subscriber.make_customer_message_callback(callback)
+#
+# print('Listening for messages!')
+# while True:
+#     time.sleep(60)
+
+
 
 # import time
 #
