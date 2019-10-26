@@ -55,10 +55,9 @@ def twitter_query(start_date, end_date, query_strings="jetblue"):
         start_date += datetime.timedelta(days=1)
         end_string = str(start_date.year) + "-" + str(start_date.month) + "-" + str(start_date.day)
         tweets = query_tweets(query_strings + " until:" + end_string + " since:" + start_string)
-        print(str(tweets[0].username) + " | " + str(tweets[0].timestamp))
         for tweet in tweets:
             location = query_user_info(user=tweet.username).location
-            publisher.send_customer_message(query_strings + "_twitter", ***REMOVED***'sentiment': tweet.text, 'location': location***REMOVED***, tweet.timestamp)
+            publisher.send_customer_message(query_strings + "_twitter", ***REMOVED***'sentiment': tweet.text, 'location': location***REMOVED***, tweet.timestamp, tweet.id)
         # for tweet in tweets:
 
     # start_string = str(start_date.year) + "-" + str(start_date.month) + "-" + str(start_date.day)
