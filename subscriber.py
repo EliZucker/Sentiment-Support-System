@@ -50,7 +50,9 @@ class sentiment_publisher:
     def callback(self, category: str, data: dict, date: datetime, post_id: str):
         if 'sentiment' not in data:
             raise KeyError('Trying to run sentiment analysis ')
-        data['sentiment'] = self.g_sa.get_sentiment(data['sentiment'])
+        sentiment = data['sentiment']
+        data['sentiment'] = self.g_sa.get_sentiment(sentiment)
+        data['sentiment [original]'] = sentiment
         data['timestamp'] = date
         self.g_db.store_data(data, data_id=post_id, source=category)
 

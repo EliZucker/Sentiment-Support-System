@@ -27,8 +27,8 @@ class g_pub:
 
 if __name__ == "__main__":
     publisher = g_pub()
-    publisher.send_customer_message('twitter',
-                                    ***REMOVED***'sentiment': 'i love jetblue', 'demographic': 'white'***REMOVED***,
+    publisher.send_customer_message('jetblue_twitter',
+                                    ***REMOVED***'sentiment': 'i hate jetblue', 'demographic': 'fucker'***REMOVED***,
                                     datetime.now(),
-                                    post_id='my id')
+                                    post_id='id 2')
 
