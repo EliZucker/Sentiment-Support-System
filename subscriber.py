@@ -37,8 +37,8 @@ class g_sub:
 
     def get_callbacks(self):
         self.subscriber.subscribe(self.subscription_path, callback=self.intermediate_callback)
-        for i in range(self.wait_time):
-            time.sleep(1)
+        for i in range(self.wait_time * 100):
+            time.sleep(0.01)
 
 
 class sentiment_publisher:
