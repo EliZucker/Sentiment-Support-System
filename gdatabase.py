@@ -226,15 +226,15 @@ if __name__ == '__main__':
     # def filterer(x):
     #     return x.where('timestamp', '==', datetime.now())
 
-    docs = gdb.get_data_from_sources_in_range(['jetblue_twitter'], datetime.now() - timedelta(days=1), datetime.now())
+    docs = gdb.get_data_from_source_in_range('jetblue_tripadvisor', datetime.now() - timedelta(days=1), datetime.now())
     # docs = gdb.get_data_from_all_in_range(datetime.now() - timedelta(days=1), datetime.now(), filterer)
 
+    total = 0
     i = 0
     for doc in docs:
+        total += doc['sentiment']
         i += 1
-        # print(docs)
-        print(doc, docs[doc])
 
-    print(docs)
+    print(total, i, total/i)
 
     # gdb.clear_database()

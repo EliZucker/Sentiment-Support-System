@@ -1,3 +1,4 @@
+import sys
 import time
 from datetime import datetime
 from google.cloud import pubsub_v1
@@ -60,5 +61,9 @@ class sentiment_publisher:
 if __name__ == "__main__":
     sp = sentiment_publisher()
 
-    subscriber = g_sub(sp.callback)
+    if len(sys.argv) > 1:
+        subscriber = g_sub(sp.callback, int(sys.argv[1]))
+    else:
+        subscriber = g_sub(sp.callback)
+
     subscriber.get_callbacks()
