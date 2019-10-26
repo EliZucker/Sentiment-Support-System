@@ -231,10 +231,10 @@ if __name__ == '__main__':
 
     # i = 0
     # for doc in docs:
-    # i += 1
-    # print(docs)
-    # print(doc, docs[doc])
-
+    #     i += 1
+    #     print(docs)
+    #     # print(doc, docs[doc])
+    #
     # print(i)
 
     # gdb.clear_database()

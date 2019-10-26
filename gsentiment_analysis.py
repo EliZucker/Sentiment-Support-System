@@ -4,7 +4,7 @@ from google.cloud import language_v1
 from google.cloud.language_v1 import enums
 
 
-class sentiment_analysis:
+class g_sentiment_analysis:
     def __init__(self):
         setup_credentials()
         self.client = language_v1.LanguageServiceClient()
