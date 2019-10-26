@@ -1,6 +1,6 @@
-# import requests
+import requests
 # from lxml import html
-# import re
+import re
 from robobrowser import RoboBrowser
 import pandas as pd
 # import sys  
@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import signal
 import sys
+import json
 
 def login():
 	browser.open('https://flightaware.com/account/login')
@@ -18,45 +19,84 @@ def login():
 	form['flightaware_password'] = "123456A"
 	browser.submit_form(form)
 
+def get_flights_per_carrier(carrier):
+	allflights = []
+	base = "https://flightaware.com/live/fleet/" + carrier
+
+	for x in range(20, 120, 20):
+		end = "?;offset=" + str(x) + ";order=ident;sort=ASC"
+		page = requests.get(base + end)
+		flights = re.findall(carrier + "[0-9]+", page.text)
+		skip = False
+		for f in flights:
+			if(skip):
+				skip = False
+				continue
+			else:
+				skip = True
+				allflights.append(f)
+
+	return allflights
 
 def get_delay_for_flight(link):
 	url = link
 	driver.get(url)
-	delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
-	if(delay_descrip.find("late") is -1):
-		return 0
-	else:
-		return 1
+	try:
+		delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
+		if(delay_descrip.find("late") is -1):
+			return 0
+		else:
+			return 1
+	except Exception as e:
+		return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
 def get_flight_links(flight):
 	url = "https://flightaware.com/live/flight/" + str(flight) + "/history/80"
 	driver.get(url)
+	print("url loaded")
 	elmnts = driver.find_elements(By.XPATH, "//span[contains(@class, 'tablesaw-cell-content')]/a")
+	#Now I also need the date with each link
 
 	links = []
 	for x in elmnts:
+		# print(x.get_attribute('innerHTML'))
 		# print(x.get_attribute('outerHTML')[9:-17])
-		links.append("https://flightaware.com" + x.get_attribute('outerHTML')[9:-17])
-
+		links.append(***REMOVED***"date": x.get_attribute('innerHTML'), "link": "https://flightaware.com" + x.get_attribute('outerHTML')[9:-17]***REMOVED***)
+	# print("processing done")
 	return links
 	# print(driver.find_elements(By.XPATH, "//span[contains(@class, 'tablesaw-cell-content')]/a"))
 	# print(find_elements_by_xpath("//span[contains(@class, 'tablesaw-cell-content')]"))
 	# print(driver.find_elements_by_class_name("tablesaw-cell-content"))
 
 
-# def get_flight_delay_data(flight):
-# 	links = get_flight_links("JBU101")
-# 	# print(links)
-# 	delays = 0
-# 	tot = 0
-# 	for link in links:
-# 		delays = delays + get_delay_for_flight(link)
-# 		tot = tot + 1
+#return ***REMOVED***"25-oct-2019": ***REMOVED***"delays": 0, "tot": 0***REMOVED******REMOVED***
+def get_flight_delay_data(flight, storage):
+	# data = ***REMOVED******REMOVED***
+	links = get_flight_links(flight)
+	# print(links)
+	delays = 0
+	tot = 0
+	for link in links:
+		print(link)
+		datum = storage.get(link["date"], ***REMOVED***"delays": 0, "tot": 0***REMOVED***)
+		datum["delays"] = datum["delays"] + get_delay_for_flight(link["link"])
+		datum["tot"] = datum["tot"] + 1
+		storage[link["date"]] = datum
 
-# 	print(delays)
-# 	print(tot)
-# 	return ***REMOVED***"delayed": delays, "tot": tot***REMOVED***
+def get_carrier_data(carrier):
+	overall = ***REMOVED******REMOVED***
+	flights = get_flights_per_carrier(carrier)
+	print(flights)
+	for flight in flights:
+		print(flight)
+		get_flight_delay_data(flight, overall)
+		print(overall)
+		write_to_file(overall)
+
+def write_to_file(dictionary):
+	with open('data.txt', 'w') as file:
+	     file.write(json.dumps(dictionary))
 
 
 def signal_handler(sig, frame):
@@ -70,15 +110,21 @@ browser = RoboBrowser(user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6
 login()
 driver = webdriver.PhantomJS()
 driver.set_window_size(1120, 550)
-links = get_flight_links("JBU101")
+# links = get_flight_links("JBU101")
 # print(links)
-delays = 0
-tot = 0
-for link in links:
-	print(link)
-	delays = delays + get_delay_for_flight(link)
-	tot = tot + 1
-	print("Delay: " + str(delays) + " Tot: " + str(tot))
+# delays = 0
+# tot = 0
+# for link in links:
+# 	print(link)
+# 	delays = delays + get_delay_for_flight(link)
+# 	tot = tot + 1
+# 	print("Delay: " + str(delays) + " Tot: " + str(tot))
+print(get_carrier_data("JBU"))
+
+# print(get_flight_delay_data("JBU101"))
+# get_flight_links("JBU101")
+# get_carrier_data("JBU")
+
 
 
 # link = "https://flightaware.com/live/flight/JBU1056/history/20191026/1926Z/MBPV/KJFK"

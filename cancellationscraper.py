@@ -87,7 +87,6 @@ def get_cancelled(flight):
 			datum["tot"] = datum["tot"] + 1
 			stored[date] = datum
 
-			
 	return stored
 	
 
