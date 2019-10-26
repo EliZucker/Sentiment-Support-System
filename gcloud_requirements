@@ -1,2 +1,3 @@
 pip3 install --upgrade firebase-admin
 pip3 install --upgrade google-cloud-language
+pip3 install --upgrade google-cloud-pubsub

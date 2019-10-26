@@ -49,6 +49,20 @@ def convert_query_to_dict(query_stream):
     return formatted_docs
 
 
+def get_data_from_source_refs(source_refs,
+                              query):
+    """
+    Gets data from many sources
+    :param source_refs: A list of source refs
+    :param query: A query to execute
+    :return: A dict of source to response dict
+    """
+    response = ***REMOVED******REMOVED***
+    for source_ref in source_refs:
+        response[source_ref.id] = get_data_from_source_ref(source_ref=source_ref, query=query)
+    return response
+
+
 class google_db:
     def __init__(self):
         """
@@ -114,7 +128,7 @@ class google_db:
                                       timestamp2: datetime,
                                       additional_query=None):
         """
-        Gets data from a sour
+        Gets data from a source
         :param source: The source to pull data from
         :param timestamp1: A timestamp older than timestamp2
         :param timestamp2: A timestamp more recent than timestamp1
@@ -145,6 +159,31 @@ class google_db:
             response[source_ref] = get_data_from_source_ref(source_ref=source_ref, query=query)
         return response
 
+    def get_data_from_sources_in_range(self,
+                                       sources: list,
+                                       timestamp1: datetime,
+                                       timestamp2: datetime,
+                                       additional_query=None):
+        """
+        Gets data from a list of sources
+        :param sources: A list of strings to get data for
+        :param timestamp1: A timestamp older than timestamp2
+        :param timestamp2: A timestamp more recent than timestamp1
+        :param additional_query: Any additional query to add (a function that takes an input and filters eg x.where(...)
+        :return: A dict of source to response dict
+        """
+        if additional_query is None:
+            def query(doc):
+                return doc.where('timestamp', '>=', timestamp1).where('timestamp', '<=', timestamp2)
+        else:
+            def query(doc):
+                return additional_query(doc.where('timestamp', '>=', timestamp1).where('timestamp', '<=', timestamp2))
+
+        source_refs = []
+        for source in sources:
+            source_refs.append(self.db.collection(source))
+        return get_data_from_source_refs(source_refs, query=query)
+
     def get_data_from_all_in_range(self,
                                    timestamp1: datetime,
                                    timestamp2: datetime,
@@ -164,10 +203,7 @@ class google_db:
                 return additional_query(doc.where('timestamp', '>=', timestamp1).where('timestamp', '<=', timestamp2))
 
         sources = self.db.collections()
-        response = ***REMOVED******REMOVED***
-        for source_ref in sources:
-            response[source_ref.id] = get_data_from_source_ref(source_ref=source_ref, query=query)
-        return response
+        return get_data_from_source_refs(sources, query=query)
 
     def clear_database(self):
         """
@@ -179,6 +215,7 @@ class google_db:
 
 
 if __name__ == '__main__':
+    # pass
     gdb = google_db()
 
     # for i in range(300):
@@ -189,15 +226,15 @@ if __name__ == '__main__':
     # def filterer(x):
     #     return x.where('timestamp', '==', datetime.now())
 
-    docs = gdb.get_data_from_source_in_range('twitter', datetime.now() - timedelta(days=1), datetime.now())
+    # docs = gdb.get_data_from_source_in_range('twitter', datetime.now() - timedelta(days=1), datetime.now())
     # docs = gdb.get_data_from_all_in_range(datetime.now() - timedelta(days=1), datetime.now(), filterer)
 
-    i = 0
-    for doc in docs:
-        i += 1
-        # print(docs)
-        # print(doc, docs[doc])
+    # i = 0
+    # for doc in docs:
+    # i += 1
+    # print(docs)
+    # print(doc, docs[doc])
 
-    print(i)
+    # print(i)
 
     # gdb.clear_database()

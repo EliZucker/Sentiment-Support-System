@@ -23,6 +23,12 @@ class sentiment_analysis:
         return response.document_sentiment.score
 
     def get_bulk_sentiment(self, data: list):
+        """
+        Gets sentiments for a list of strings
+
+        :param data: A list of strings to process
+        :return: An iterator where the ith element in the map represents the sentiment of the ith element in data
+        """
         return map(self.get_sentiment, data)
 
 
