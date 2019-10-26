@@ -1,16 +1,14 @@
-import multiprocessing
-
 from datetime import datetime, timedelta
 
-import os
 import uuid
 
 from google.cloud import firestore
 
+from util import setup_credentials
+
 
 def get_client():
-    credential_path = "YHack-2019-a87246a5ff6d.json"
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
+    setup_credentials()
     return firestore.Client()
 
 
@@ -180,25 +178,26 @@ class google_db:
             remove_source_by_ref(source_ref)
 
 
-if __name__ == 'EXAMPLES':
+if __name__ == '__main__':
     gdb = google_db()
 
     # for i in range(300):
-    #    gdb.store_data(***REMOVED***'timestamp': datetime.now(), 'happy': 'yes'***REMOVED***, source='twitter')
+    #     gdb.store_data(***REMOVED***'timestamp': datetime.now(), 'sentiment': 'angry'***REMOVED***, source='sentiment')
 
     # gdb.remove_source(source='twitter')
 
     # def filterer(x):
     #     return x.where('timestamp', '==', datetime.now())
 
-    # docs = gdb.get_data_from_source_in_range('twitter', datetime.now() - timedelta(days=1), datetime.now())
+    docs = gdb.get_data_from_source_in_range('twitter', datetime.now() - timedelta(days=1), datetime.now())
     # docs = gdb.get_data_from_all_in_range(datetime.now() - timedelta(days=1), datetime.now(), filterer)
 
-    # i = 0
-    # for doc in docs:
-    #     i += 1
-    #     print(doc, docs[doc])
-    #
-    # print(i)
+    i = 0
+    for doc in docs:
+        i += 1
+        # print(docs)
+        # print(doc, docs[doc])
+
+    print(i)
 
     # gdb.clear_database()
