@@ -9,7 +9,7 @@ from util import setup_credentials
 import json
 
 project_id = "yhack-2019-257102"
-subscription_name = "customer-posts-sub-2"
+subscription_name = "newnewsub"
 
 
 # Callback must be in form:
