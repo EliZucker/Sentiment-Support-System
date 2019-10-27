@@ -10,7 +10,7 @@
 # routes = [('/', MainPage)]
 #
 # my_app = webapp3.WSGIApplication(routes, debug=True)
-from flask import Flask
+from flask import Flask, render_template
 from flask import request
 import json
 
@@ -23,8 +23,13 @@ gdb = google_db()
 
 @app.route('/')
 def get_thing():
-    return '<form action="/search/" method="GET"><input name="search-id" type="text"><input type="submit" ' \
-           'value="search"></form>'
+    # return '<form action="/search/" method="GET"><input name="search-id" type="text"><input type="submit" ' \
+    #        'value="search"></form>'
+    return render_template('index.html')
+
+# @app.route('/')
+# def root():
+#     return app.send_static_file('index.html')
 
 @app.route('/search')
 def do_search():
