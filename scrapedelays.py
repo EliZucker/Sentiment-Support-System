@@ -30,7 +30,7 @@ def get_flights_per_carrier(carrier):
 	base = "https://flightaware.com/live/fleet/" + carrier
 
 	for x in range(20, 120, 20):
-		end = "?;offset=" + str(x) + ";order=ident;sort=ASC"
+		end = "?;offset=" + str(x) + ";order=ident;sort=DESC"
 		page = requests.get(base + end)
 		flights = re.findall(carrier + "[0-9]+", page.text)
 		skip = False
