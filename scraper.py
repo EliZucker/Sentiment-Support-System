@@ -50,7 +50,7 @@ def tripadvisor_query(airline_differentiator, airline):
         browser.refresh()
     browser.close()
 
-tripadvisor_query("d8729020", "American-Airlines")
+#tripadvisor_query("d8729020", "American-Airlines")
 
 #input starting and ending datetime objects for range and any search terms (as one string). If we wanted
 #all jetblue query strings would just be "jetblue" if we wanted cancellations query strings would be
@@ -82,9 +82,9 @@ def twitter_query(start_date, end_date, query_strings="jetblue"):
 start = 80
 end = 0
 
-#twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
-              # datetime.date(2019,10,26) - datetime.timedelta(days=end),
-              # query_strings='united airlines')
+twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
+              datetime.date(2019,10,26) - datetime.timedelta(days=end),
+              query_strings='jetblue')
 
 # jetblue, american airlines, delta airlines, united airlines
 
