@@ -3,6 +3,8 @@ import re
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC  
 import signal
 import sys
 import json
@@ -13,8 +15,14 @@ missed_flights = []
 
 def login():
 	driver.get('https://flightaware.com/account/login')
-	driver.find_element_by_name("flightaware_username").send_keys("redytedy")
-	driver.find_element_by_name("flightaware_password").send_keys("123123123")
+	try:
+		username = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'flightaware_username')))
+		password = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'flightaware_password')))
+	except Exception as e:
+		print(e)
+		login()
+	username.send_keys("redytedy")
+	password.send_keys("123123123")
 	driver.find_element_by_class_name("actionButton").click()
 
 def get_flights_per_carrier(carrier):
@@ -22,7 +30,7 @@ def get_flights_per_carrier(carrier):
 	base = "https://flightaware.com/live/fleet/" + carrier
 
 	for x in range(20, 120, 20):
-		end = "?;offset=" + str(x) + ";order=ident;sort=ASC"
+		end = "?;offset=" + str(x) + ";order=ident;sort=DESC"
 		page = requests.get(base + end)
 		flights = re.findall(carrier + "[0-9]+", page.text)
 		skip = False
@@ -41,7 +49,9 @@ def get_delay_for_flight(link):
 	url = link
 	try:
 		driver.get(url)
-		delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
+		delay_descrip = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'flightPageArrivalDelayStatus')))
+		delay_descrip = delay_descrip.text.replace("(", "").replace(")", "")
+		# print(delay_descrip)
 		# raise Exception('spam', 'eggs')
 		retries = 0
 		if(delay_descrip.find("late") == -1):
@@ -50,14 +60,17 @@ def get_delay_for_flight(link):
 			return 1
 	except Exception as e:
 		print(e)
-		retries = retries + 1
-		if(retries > 2):
-			retries = 0
-			return -1;
-		else:
-			print("Waiting " + str(5 * retries) + "...")
-			time.sleep(5 * (retries))
-			return get_delay_for_flight(link)
+		# login()
+		return -1
+		# retries = retries + 1
+		# if(retries > 2):
+		# 	retries = 0
+		# 	login()
+		# 	return -1;
+		# else:
+		# 	print("Waiting " + str(5 * retries) + "...")
+		# 	time.sleep(5 * (retries))
+		# 	return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
 def get_flight_links(flight):
@@ -114,13 +127,11 @@ def write_to_file(dictionary):
 	with open('data.txt', 'w') as file:
 	     file.write(json.dumps(dictionary))
 
-
 def signal_handler(sig, frame):
         print('You pressed Ctrl+C!')
         driver.quit()
         sys.exit(0)
 
-	
 signal.signal(signal.SIGINT, signal_handler)
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
@@ -154,8 +165,6 @@ for m in missed_flights:
 # print(get_flight_delay_data("JBU101"))
 # get_flight_links("JBU101")
 # get_carrier_data("JBU")
-
-
 
 # link = "https://flightaware.com/live/flight/JBU1056/history/20191026/1926Z/MBPV/KJFK"
 # get_delay_for_flight(link)
