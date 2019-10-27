@@ -13,8 +13,8 @@ missed_flights = []
 
 def login():
 	driver.get('https://flightaware.com/account/login')
-	driver.find_element_by_name("flightaware_username").send_keys("andysknoblock@yahoo.com")
-	driver.find_element_by_name("flightaware_password").send_keys("123456A")
+	driver.find_element_by_name("flightaware_username").send_keys("redytedy")
+	driver.find_element_by_name("flightaware_password").send_keys("123123123")
 	driver.find_element_by_class_name("actionButton").click()
 
 def get_flights_per_carrier(carrier):
