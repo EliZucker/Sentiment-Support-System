@@ -46,7 +46,7 @@ def get_delay_for_flight(link):
 		print(e)
 		print(driver.page_source)
 		with open('response.html', 'w') as file:
-	     file.write(json.dumps(driver.page_source))
+			file.write(json.dumps(driver.page_source))
 		print("Waiting 5 seconds")
 		time.sleep(5)
 		return get_delay_for_flight(link)
