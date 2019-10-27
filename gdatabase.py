@@ -156,7 +156,8 @@ class google_db:
         sources = self.db.collections()
         response = ***REMOVED******REMOVED***
         for source_ref in sources:
-            response[source_ref] = get_data_from_source_ref(source_ref=source_ref, query=query)
+            print('getting from', source_ref.id)
+            response[source_ref.id] = get_data_from_source_ref(source_ref=source_ref, query=query)
         return response
 
     def get_data_from_sources_in_range(self,

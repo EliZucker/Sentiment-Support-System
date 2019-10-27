@@ -50,7 +50,6 @@ class sentiment_publisher:
         self.queue = Queue()
 
     def callback(self, category: str, data: dict, date: datetime, post_id: str):
-        self.count += 1
         if self.queue.qsize() < 1000:
             self.queue.put((category, data, date, post_id))
             return True
@@ -59,8 +58,11 @@ class sentiment_publisher:
     def dequeue(self):
         while True:
             if self.queue.qsize() < 0:
+                print('No more items enqueued!')
                 time.sleep(1)
                 continue
+
+            millis = time.time()
             dequeued = self.queue.get()
             category = dequeued[0]
             data = dequeued[1]
@@ -74,10 +76,17 @@ class sentiment_publisher:
                 data['sentiment [original]'] = sentiment
                 data['timestamp'] = date
                 self.g_db.store_data(data, data_id=post_id, source=category)
-                print('sentiment analyzed for ***REMOVED******REMOVED***'.format(category))
+                self.count += 1
+                print('sentiment analyzed for ***REMOVED******REMOVED*** : ***REMOVED******REMOVED***'.format(category, self.count))
             except Exception:
+                print('sentiment analysis failed [language]')
                 pass
-            time.sleep(0.105)
+
+            sleep_interval = .105 - (time.time() - millis)
+            if sleep_interval < 0:
+                sleep_interval = 0
+
+            time.sleep(sleep_interval)
 
 
 if __name__ == "__main__":
