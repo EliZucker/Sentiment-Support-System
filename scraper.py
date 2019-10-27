@@ -56,16 +56,9 @@ def twitter_query(start_date, end_date, query_strings="jetblue"):
         start_string = str(end_date.year) + "-" + str(end_date.month) + "-" + str(end_date.day)
         tweets = query_tweets(query_strings + " until:" + end_string + " since:" + start_string)
         for tweet in tweets:
-            user_data = query_user_info(user=tweet.username)
-            if user_data is not None:
-                location = user_data.location
-            if location is not None:
-                publisher.send_customer_message(query_strings + "_twitter", ***REMOVED***'sentiment': tweet.text, 'location': location***REMOVED***,
-                                                tweet.timestamp, tweet.tweet_id)
-            else:
-                publisher.send_customer_message(query_strings + "_twitter",
-                                                ***REMOVED***'sentiment': tweet.text***REMOVED***,
-                                                tweet.timestamp, tweet.tweet_id)
+            publisher.send_customer_message(query_strings + "_twitter",
+                                            ***REMOVED***'sentiment': tweet.text***REMOVED***,
+                                            tweet.timestamp, tweet.tweet_id)
 
         # for tweet in tweets:
 
