@@ -77,7 +77,7 @@ end = 0
 
 twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
               datetime.date(2019,10,26) - datetime.timedelta(days=end),
-              query_strings='delta airlines')
+              query_strings='jetblue')
 
 # jetblue, american airlines, delta airlines, united airlines
 
