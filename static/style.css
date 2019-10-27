@@ -1,0 +1,47 @@
+body ***REMOVED***
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+  background: rgb(195,123,255);
+  background: -moz-linear-gradient(90deg, rgba(195,123,255,1) 0%, rgba(131,180,237,1) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(195,123,255,1) 0%, rgba(131,180,237,1) 100%);
+  background: linear-gradient(90deg, rgba(195,123,255,1) 0%, rgba(131,180,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c37bff",endColorstr="#83b4ed",GradientType=1);
+***REMOVED***
+
+#search ***REMOVED***
+  height: 80px;
+  width: 80px;
+  border: solid 5px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  transition: 0.3s;
+***REMOVED***
+
+#search-input ***REMOVED***
+  height: 100%;
+  width: 0px;
+  font-size: 28px;
+  font-weight: 600;
+  background: none;
+  color: #FFF;
+  border: none;
+  outline: 0;
+  visibility: hidden;
+  transition: 0.3s;
+***REMOVED***
+
+#search.active ***REMOVED***
+  width: 350px;
+***REMOVED***
+
+#search-input.active ***REMOVED***
+  width: 260px;
+  margin-left: 16px;
+  visibility: visible;
+***REMOVED***
