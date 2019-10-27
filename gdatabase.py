@@ -184,6 +184,21 @@ class google_db:
             source_refs.append(self.db.collection(source))
         return get_data_from_source_refs(source_refs, query=query)
 
+    def get_data_from_sources(self,
+                              sources: list,
+                              query=None):
+        """
+        Gets data from a list of sources
+        :param sources: A list of strings to get data for
+        :param query: Any additional query to add (a function that takes an input and filters eg x.where(...)
+        :return: A dict of source to response dict
+        """
+
+        source_refs = []
+        for source in sources:
+            source_refs.append(self.db.collection(source))
+        return get_data_from_source_refs(source_refs, query=query)
+
     def get_data_from_all_in_range(self,
                                    timestamp1: datetime,
                                    timestamp2: datetime,
@@ -235,6 +250,6 @@ if __name__ == '__main__':
         total += doc['sentiment']
         i += 1
 
-    print(total, i, total/i)
+    print(total, i, total / i)
 
     # gdb.clear_database()
