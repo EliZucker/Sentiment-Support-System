@@ -43,6 +43,7 @@ def get_delay_for_flight(link):
 		driver.get(url)
 		delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
 		# raise Exception('spam', 'eggs')
+		retries = 0
 		if(delay_descrip.find("late") == -1):
 			return 0
 		else:
