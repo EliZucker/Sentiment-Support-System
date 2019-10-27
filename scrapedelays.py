@@ -8,6 +8,9 @@ import sys
 import json
 import time
 
+missed_flights = ***REMOVED******REMOVED***
+retries = 0
+
 def login():
 	driver.get('https://flightaware.com/account/login')
 	driver.find_element_by_name("flightaware_username").send_keys("andysknoblock@yahoo.com")
@@ -38,18 +41,19 @@ def get_delay_for_flight(link):
 	driver.get(url)
 	try:
 		delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
-		if(delay_descrip.find("late") is -1):
+		if(delay_descrip.find("late") == -1):
 			return 0
 		else:
 			return 1
 	except Exception as e:
 		print(e)
-		print(driver.page_source)
-		with open('response.html', 'w') as file:
-			file.write(json.dumps(driver.page_source))
-		print("Waiting 5 seconds")
-		time.sleep(5)
-		return get_delay_for_flight(link)
+		retries = retries + 1
+		if(retries > 2):
+			return -1;
+		else:
+			print("Waiting...")
+			time.sleep(10 * (retries**2))
+			return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
 def get_flight_links(flight):
@@ -81,9 +85,16 @@ def get_flight_delay_data(flight, storage):
 	for link in links:
 		print(link)
 		datum = storage.get(link["date"], ***REMOVED***"delays": 0, "tot": 0***REMOVED***)
-		datum["delays"] = datum["delays"] + get_delay_for_flight(link["link"])
-		datum["tot"] = datum["tot"] + 1
-		storage[link["date"]] = datum
+		delay = get_delay_for_flight(link["link"])
+		if(delay == -1):
+			#skip this flight
+			print("Skipping flight")
+			missed_flights.append(flight)
+			print("Missed flights: " + missed_flights)
+		else:
+			datum["delays"] = datum["delays"] + delay
+			datum["tot"] = datum["tot"] + 1
+			storage[link["date"]] = datum
 
 def get_carrier_data(carrier):
 	overall = ***REMOVED******REMOVED***
@@ -111,6 +122,12 @@ driver = webdriver.PhantomJS()
 driver.set_window_size(1120, 550)
 login()
 print(get_carrier_data("JBU"))
+for m in missed_flights:
+	get_flight_delay_data(m, overall)
+	print(overall)
+	write_to_file(overall)
+
+
 # links = get_flight_links("JBU101")
 # print(links)
 # delays = 0
