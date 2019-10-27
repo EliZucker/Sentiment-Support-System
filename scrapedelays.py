@@ -50,15 +50,17 @@ def get_delay_for_flight(link):
 			return 1
 	except Exception as e:
 		print(e)
-		retries = retries + 1
-		if(retries > 2):
-			retries = 0
-			login()
-			return -1;
-		else:
-			print("Waiting " + str(5 * retries) + "...")
-			time.sleep(5 * (retries))
-			return get_delay_for_flight(link)
+		login()
+		return -1
+		# retries = retries + 1
+		# if(retries > 2):
+		# 	retries = 0
+		# 	login()
+		# 	return -1;
+		# else:
+		# 	print("Waiting " + str(5 * retries) + "...")
+		# 	time.sleep(5 * (retries))
+		# 	return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
 def get_flight_links(flight):
