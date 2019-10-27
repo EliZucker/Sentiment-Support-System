@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="***REMOVED******REMOVED***url_for('static', filename='style.css')***REMOVED******REMOVED***">
+</head>
+    <table>
+    	<col width="40%">
+    	<tr>
+    		<th>Text</th>
+    		<th>Sentiment</th>
+    		<th>Datestamp</th>
+    	</tr>
+    	***REMOVED***% for x in tweets %***REMOVED***
+			<tr>
+			    <td>***REMOVED******REMOVED*** x["sentiment [original]"] ***REMOVED******REMOVED***</td>
+			    <td>***REMOVED******REMOVED*** x["sentiment"] ***REMOVED******REMOVED***</td>
+			    <td>***REMOVED******REMOVED*** x["timestamp"] ***REMOVED******REMOVED***</td>
+		  	</tr>
+    	***REMOVED***% endfor %***REMOVED***
+    </table>
+
+</html>

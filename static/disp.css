@@ -1,0 +1,15 @@
+table, th, td ***REMOVED***
+  border: 10px solid black;
+***REMOVED***
+
+th, td ***REMOVED***
+  padding: 15px;
+***REMOVED***
+
+body***REMOVED***
+	background: rgb(195,123,255);
+	background: -moz-linear-gradient(90deg, rgba(195,123,255,1) 0%, rgba(131,180,237,1) 100%);
+	background: -webkit-linear-gradient(90deg, rgba(195,123,255,1) 0%, rgba(131,180,237,1) 100%);
+	background: linear-gradient(90deg, rgba(195,123,255,1) 0%, rgba(131,180,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c37bff",endColorstr="#83b4ed",GradientType=1);
+***REMOVED***
