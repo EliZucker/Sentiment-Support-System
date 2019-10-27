@@ -56,11 +56,9 @@ def twitter_query(start_date, end_date, query_strings="jetblue"):
         start_string = str(end_date.year) + "-" + str(end_date.month) + "-" + str(end_date.day)
         tweets = query_tweets(query_strings + " until:" + end_string + " since:" + start_string)
         for tweet in tweets:
-            location = None
             user_data = query_user_info(user=tweet.username)
             if user_data is not None:
                 location = user_data.location
-
             if location is not None:
                 publisher.send_customer_message(query_strings + "_twitter", ***REMOVED***'sentiment': tweet.text, 'location': location***REMOVED***,
                                                 tweet.timestamp, tweet.tweet_id)
@@ -79,7 +77,7 @@ end = 0
 
 twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
               datetime.date(2019,10,26) - datetime.timedelta(days=end),
-              query_strings='united airlines')
+              query_strings='jetblue')
 
 # jetblue, american airlines, delta airlines, united airlines
 
