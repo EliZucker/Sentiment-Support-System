@@ -142,7 +142,9 @@ driver = webdriver.Chrome(chrome_options=chrome_options)
 driver.set_window_size(1120, 550)
 login()
 retries = 0
-print(get_carrier_data("JBU"))
+# Delta = DAL
+# United = UAL
+print(get_carrier_data("AAL"))
 with open('missed_flights.txt', 'w') as file:
 	     file.write(json.dumps(missed_flights))
 for m in missed_flights:
