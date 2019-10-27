@@ -24,7 +24,6 @@ class g_sub:
         self.wait_time = wait_time
 
     def intermediate_callback(self, message):
-        print('recieved message')
         extracted_data = json.loads(message.data.decode("utf-8"))
         extracted_date = datetime.strptime(message.attributes['date'], "%m/%d/%Y, %H:%M:%S")
         extracted_post_id = message.attributes['post_id']
@@ -38,8 +37,8 @@ class g_sub:
 
     def get_callbacks(self):
         self.subscriber.subscribe(self.subscription_path, callback=self.intermediate_callback)
-        for i in range(self.wait_time * 100):
-            time.sleep(0.01)
+        while True:
+            pass
 
 
 class sentiment_publisher:
@@ -47,8 +46,11 @@ class sentiment_publisher:
         setup_credentials()
         self.g_db = google_db()
         self.g_sa = g_sentiment_analysis()
+        self.count = 0
 
     def callback(self, category: str, data: dict, date: datetime, post_id: str):
+        self.count += 1
+        print('received message ***REMOVED******REMOVED***: ***REMOVED******REMOVED***\n'.format(self.count, data))
         if 'sentiment' not in data:
             raise KeyError('Trying to run sentiment analysis ')
         sentiment = data['sentiment']

@@ -56,15 +56,32 @@ def twitter_query(start_date, end_date, query_strings="jetblue"):
         end_string = str(start_date.year) + "-" + str(start_date.month) + "-" + str(start_date.day)
         tweets = query_tweets(query_strings + " until:" + end_string + " since:" + start_string)
         for tweet in tweets:
-            location = query_user_info(user=tweet.username).location
-            publisher.send_customer_message(query_strings + "_twitter", ***REMOVED***'sentiment': tweet.text, 'location': location***REMOVED***, tweet.timestamp, tweet.id)
+            # location = None
+            # user_data = query_user_info(user=tweet.username)
+            # if user_data is not None:
+            #     location = user_data.location
+            #
+            # if location is not None:
+            #     publisher.send_customer_message(query_strings + "_twitter", ***REMOVED***'sentiment': tweet.text, 'location': location***REMOVED***,
+            #                                     tweet.timestamp, tweet.tweet_id)
+            # else:
+            publisher.send_customer_message(query_strings + "_twitter",
+                                                ***REMOVED***'sentiment': tweet.text***REMOVED***,
+                                                tweet.timestamp, tweet.tweet_id)
         # for tweet in tweets:
 
     # start_string = str(start_date.year) + "-" + str(start_date.month) + "-" + str(start_date.day)
     # end_string = str(end_date.year) + "-" + str(end_date.month) + "-" + str(end_date.day)
 
+start = 30
+end = 0
 
-#twitter_query(datetime.date(2019,10,1), datetime.date(2019,10,2))
+twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
+              datetime.date(2019,10,26) - datetime.timedelta(days=end),
+              query_strings='united airlines')
+
+# jetblue, american airlines, delta airlines, united airlines
+
 
 # credential_path = "YHack-2019-a87246a5ff6d.json"
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
