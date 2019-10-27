@@ -1,10 +1,6 @@
 import requests
-# from lxml import html
 import re
-from robobrowser import RoboBrowser
 import pandas as pd
-# import sys  
-# from lxml import html 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import signal
@@ -12,12 +8,10 @@ import sys
 import json
 
 def login():
-	browser.open('https://flightaware.com/account/login')
-	forms = browser.get_forms()
-	form = forms[8]
-	form['flightaware_username'] = "andysknoblock@yahoo.com"
-	form['flightaware_password'] = "123456A"
-	browser.submit_form(form)
+	driver.get('https://flightaware.com/account/login')
+	driver.find_element_by_name("flightaware_username").send_keys("andysknoblock@yahoo.com")
+	driver.find_element_by_name("flightaware_password").send_keys("123456A")
+	driver.find_element_by_class_name("actionButton").click()
 
 def get_flights_per_carrier(carrier):
 	allflights = []
@@ -48,6 +42,7 @@ def get_delay_for_flight(link):
 		else:
 			return 1
 	except Exception as e:
+		print(e)
 		return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
@@ -106,10 +101,10 @@ def signal_handler(sig, frame):
 
 	
 signal.signal(signal.SIGINT, signal_handler)
-browser = RoboBrowser(user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36')
-login()
 driver = webdriver.PhantomJS()
 driver.set_window_size(1120, 550)
+login()
+print(get_carrier_data("JBU"))
 # links = get_flight_links("JBU101")
 # print(links)
 # delays = 0
@@ -119,7 +114,7 @@ driver.set_window_size(1120, 550)
 # 	delays = delays + get_delay_for_flight(link)
 # 	tot = tot + 1
 # 	print("Delay: " + str(delays) + " Tot: " + str(tot))
-print(get_carrier_data("JBU"))
+
 
 # print(get_flight_delay_data("JBU101"))
 # get_flight_links("JBU101")
