@@ -66,14 +66,17 @@ class sentiment_publisher:
             data = dequeued[1]
             date = dequeued[2]
             post_id = dequeued[3]
-            if 'sentiment' not in data:
-                raise KeyError('Trying to run sentiment analysis ')
-            sentiment = data['sentiment']
-            data['sentiment'] = self.g_sa.get_sentiment(sentiment)
-            data['sentiment [original]'] = sentiment
-            data['timestamp'] = date
-            self.g_db.store_data(data, data_id=post_id, source=category)
-            print('sentiment analyzed for ***REMOVED******REMOVED***'.format(category))
+            try:
+                if 'sentiment' not in data:
+                    raise KeyError('Trying to run sentiment analysis ')
+                sentiment = data['sentiment']
+                data['sentiment'] = self.g_sa.get_sentiment(sentiment)
+                data['sentiment [original]'] = sentiment
+                data['timestamp'] = date
+                self.g_db.store_data(data, data_id=post_id, source=category)
+                print('sentiment analyzed for ***REMOVED******REMOVED***'.format(category))
+            except Exception:
+                pass
             time.sleep(0.105)
 
 
