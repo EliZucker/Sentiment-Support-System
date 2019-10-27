@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 import signal
 import sys
 import json
+import time
 
 def login():
 	driver.get('https://flightaware.com/account/login')
@@ -44,6 +45,10 @@ def get_delay_for_flight(link):
 	except Exception as e:
 		print(e)
 		print(driver.page_source)
+		with open('response.html', 'w') as file:
+	     file.write(json.dumps(driver.page_source))
+		print("Waiting 5 seconds")
+		time.sleep(5)
 		return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
