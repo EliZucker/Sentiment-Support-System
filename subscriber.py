@@ -50,7 +50,7 @@ class sentiment_publisher:
 
     def callback(self, category: str, data: dict, date: datetime, post_id: str):
         self.count += 1
-        print('received message ***REMOVED******REMOVED***: ***REMOVED******REMOVED***\n'.format(self.count, data))
+        print('received message ***REMOVED******REMOVED***: ***REMOVED******REMOVED***\n'.format(self.count, category))
         if 'sentiment' not in data:
             raise KeyError('Trying to run sentiment analysis ')
         sentiment = data['sentiment']
