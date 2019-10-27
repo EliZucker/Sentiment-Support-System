@@ -31,9 +31,10 @@ class g_sub:
             extracted_post_id = None
 
         extracted_category = message.attributes['category']
+        self.callback(extracted_category, extracted_data, extracted_date, extracted_post_id)
         message.ack()
 
-        self.callback(extracted_category, extracted_data, extracted_date, extracted_post_id)
+        
 
     def get_callbacks(self):
         self.subscriber.subscribe(self.subscription_path, callback=self.intermediate_callback)
