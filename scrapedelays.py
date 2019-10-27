@@ -3,6 +3,8 @@ import re
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC  
 import signal
 import sys
 import json
@@ -41,7 +43,9 @@ def get_delay_for_flight(link):
 	url = link
 	try:
 		driver.get(url)
-		delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
+		delay_descrip = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'flightPageArrivalDelayStatus')))
+		delay_descrip = delay_descrip.text.replace("(", "").replace(")", "")
+		# print(delay_descrip)
 		# raise Exception('spam', 'eggs')
 		retries = 0
 		if(delay_descrip.find("late") == -1):
