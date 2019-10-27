@@ -43,6 +43,7 @@ def get_delay_for_flight(link):
 			return 1
 	except Exception as e:
 		print(e)
+		print(driver.page_source)
 		return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
