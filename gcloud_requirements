@@ -1,3 +1,5 @@
 pip3 install --upgrade firebase-admin
 pip3 install --upgrade google-cloud-language
 pip3 install --upgrade google-cloud-pubsub
+pip3 install twitterscraper
+pip3 install selenium
