@@ -4,7 +4,7 @@ import json
 from util import setup_credentials
 
 project_id = "yhack-2019-257102"
-topic_name = "customer-posts"
+topic_name = "customer-posts2"
 
 
 class g_pub:
