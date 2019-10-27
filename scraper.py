@@ -18,9 +18,9 @@ publisher = g_pub()
 def selenium_query(domain_name, next_button_xpath, class_for_reviews):
     pass
 
-def tripadvisor_query():
+def tripadvisor_query(airline_differentiator, airline):
     browser = webdriver.Chrome()
-    browser.get("https://www.tripadvisor.com/Airline_Review-d8729099-Reviews-JetBlue#REVIEWS")
+    browser.get("https://www.tripadvisor.com/Airline_Review-" + airline_differentiator + "-Reviews-JetBlue#REVIEWS")
     for i in range(5, 175, 5):
         reviews = WebDriverWait(browser, 10).until(
             EC.presence_of_all_elements_located((By.CLASS_NAME, "location-review-review-list-parts-SingleReview__reviewContainer--N7DSv"))
@@ -33,17 +33,19 @@ def tripadvisor_query():
                 date = datetime.datetime.now()
             elif last_bit == "Yesterday":
                 date = datetime.datetime.now() - datetime.timedelta(days=1)
+            elif len(last_bit) == 4:
+                return
             else:
                 date = datetime.date(2019, 10, int(last_bit))
             message = review.find_element_by_class_name("common-text-ReadMore__content--2X4LR").text
-            publisher.send_customer_message("jetblue_tripadvisor", ***REMOVED***'sentiment': message***REMOVED***, date)
+            publisher.send_customer_message(airline + "_tripadvisor", ***REMOVED***'sentiment': message***REMOVED***, date)
         # for review in reviews:
         #     print(review.find_element_by_tag_name('span').text)
-        browser.find_element_by_xpath("//a[@href='/Airline_Review-d8729099-Reviews-or" + str(i) + "-JetBlue']").click()
+        browser.find_element_by_xpath("//a[@href='/Airline_Review-" + airline_differentiator + "-Reviews-or" + str(i) + "-" + airline + "']").click()
         browser.refresh()
     browser.close()
 
-#tripadvisor_query()
+tripadvisor_query("d8729020", "American-Airlines")
 
 #input starting and ending datetime objects for range and any search terms (as one string). If we wanted
 #all jetblue query strings would just be "jetblue" if we wanted cancellations query strings would be
@@ -75,9 +77,9 @@ def twitter_query(start_date, end_date, query_strings="jetblue"):
 start = 80
 end = 0
 
-twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
-              datetime.date(2019,10,26) - datetime.timedelta(days=end),
-              query_strings='united airlines')
+#twitter_query(datetime.date(2019,10,26) - datetime.timedelta(days=start),
+              # datetime.date(2019,10,26) - datetime.timedelta(days=end),
+              # query_strings='united airlines')
 
 # jetblue, american airlines, delta airlines, united airlines
 
