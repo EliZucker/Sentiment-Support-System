@@ -51,32 +51,30 @@ class sentiment_publisher:
 
     def callback(self, category: str, data: dict, date: datetime, post_id: str):
         self.count += 1
-        if self.queue.qsize() < 10000:
-            print('received message ***REMOVED******REMOVED***: ***REMOVED******REMOVED***\n'.format(self.count, category))
-            self.queue.put((category, data, datetime, post_id))
+        if self.queue.qsize() < 1000:
+            self.queue.put((category, data, date, post_id))
             return True
         return False
 
     def dequeue(self):
-        if self.queue.qsize() < 0:
-            time.sleep(1)
-            self.dequeue()
-        dequeued = self.queue.get()
-        print('dequeing dequeued', dequeued)
-        category = dequeued[0]
-        data = dequeued[1]
-        date = dequeued[2]
-        post_id = dequeued[3]
-        if 'sentiment' not in data:
-            raise KeyError('Trying to run sentiment analysis ')
-        sentiment = data['sentiment']
-        data['sentiment'] = self.g_sa.get_sentiment(sentiment)
-        data['sentiment [original]'] = sentiment
-        data['timestamp'] = date
-        self.g_db.store_data(data, data_id=post_id, source=category)
-        time.sleep(0.105)
-        self.dequeue()
-        
+        while True:
+            if self.queue.qsize() < 0:
+                time.sleep(1)
+                continue
+            dequeued = self.queue.get()
+            category = dequeued[0]
+            data = dequeued[1]
+            date = dequeued[2]
+            post_id = dequeued[3]
+            if 'sentiment' not in data:
+                raise KeyError('Trying to run sentiment analysis ')
+            sentiment = data['sentiment']
+            data['sentiment'] = self.g_sa.get_sentiment(sentiment)
+            data['sentiment [original]'] = sentiment
+            data['timestamp'] = date
+            self.g_db.store_data(data, data_id=post_id, source=category)
+            print('sentiment analyzed for ***REMOVED******REMOVED***'.format(category))
+            time.sleep(0.105)
 
 
 if __name__ == "__main__":
