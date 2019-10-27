@@ -49,6 +49,7 @@ def get_delay_for_flight(link):
 		print(e)
 		retries = retries + 1
 		if(retries > 2):
+			retries = 0
 			return -1;
 		else:
 			print("Waiting...")
