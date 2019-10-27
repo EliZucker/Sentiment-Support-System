@@ -15,8 +15,14 @@ missed_flights = []
 
 def login():
 	driver.get('https://flightaware.com/account/login')
-	driver.find_element_by_name("flightaware_username").send_keys("redytedy")
-	driver.find_element_by_name("flightaware_password").send_keys("123123123")
+	try:
+		username = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'flightaware_username')))
+		password = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'flightaware_password')))
+	except Exception as e:
+		print(e)
+		login()
+	username.send_keys("redytedy")
+	password.send_keys("123123123")
 	driver.find_element_by_class_name("actionButton").click()
 
 def get_flights_per_carrier(carrier):
