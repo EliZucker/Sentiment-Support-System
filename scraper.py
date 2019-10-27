@@ -18,13 +18,12 @@ publisher = g_pub()
 def selenium_query(domain_name, next_button_xpath, class_for_reviews):
     pass
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-
 def tripadvisor_query(airline_differentiator, airline):
-    browser = webdriver.Chrome()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    browser = webdriver.Chrome(chrome_options=chrome_options)
     browser.get("https://www.tripadvisor.com/Airline_Review-" + airline_differentiator + "-Reviews-JetBlue#REVIEWS")
     for i in range(5, 175, 5):
         reviews = WebDriverWait(browser, 10).until(
