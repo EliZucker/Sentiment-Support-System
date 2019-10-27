@@ -60,7 +60,7 @@ def get_delay_for_flight(link):
 			return 1
 	except Exception as e:
 		print(e)
-		login()
+		# login()
 		return -1
 		# retries = retries + 1
 		# if(retries > 2):
