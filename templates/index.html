@@ -3,48 +3,55 @@
 	<link rel="stylesheet" type="text/css" href="***REMOVED******REMOVED***url_for('static', filename='style.css')***REMOVED******REMOVED***">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 </head>
-		<!-- <input type="text" id="search-text">
-		<input type="submit"> -->
+<body>
 
-		<div id="search">
-		<i class="fas fa-search" id="search-icon"></i>
-		<form action="/search" method="get">
-			<!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
-			  <label class="btn btn-secondary active">
-			    <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
-			  </label>
-			  <label class="btn btn-secondary">
-			    <input type="radio" name="options" id="option2" autocomplete="off"> Radio
-			  </label>
-			  <label class="btn btn-secondary">
-			    <input type="radio" name="options" id="option3" autocomplete="off"> Radio
-			  </label>
-			</div> -->
-			<input type="hidden" name="sources" value='["jetblue_twitter"]'>
-			<input type="text" id="search-input" name="sentiment_str" autocomplete="off">
-		</form>
+		<div id="banner">
+			<span id="title">Sentiment Support System</span>
 		</div>
 
-	<script type="text/javascript">
-		const body = document.querySelector('body');
-		const searchBtn = document.querySelector('#search');
-		const searchInput = document.querySelector('#search-input');
-		let active = false;
+		<!-- <input type="text" id="search-text">
+		<input type="submit"> -->
+		<div class="center">
+			<div id="search">
+				<i class="fas fa-search" id="search-icon"></i>
+				<form action="/search" method="get">
+					<!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-secondary active">
+						<input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+					</label>
+					<label class="btn btn-secondary">
+						<input type="radio" name="options" id="option2" autocomplete="off"> Radio
+					</label>
+					<label class="btn btn-secondary">
+						<input type="radio" name="options" id="option3" autocomplete="off"> Radio
+					</label>
+					</div> -->
+					<input type="hidden" id="field" name="sources" value='["jetblue_twitter"]'>
+					<input type="text" id="search-input" name="sentiment_str" autocomplete="off">
+					<input type="submit">
+				</form>
+			</div>
+		</div>	
 
-		body.addEventListener('click', (e) => ***REMOVED***
-		  if(e.target.id === 'search' || e.target.id === 'search-input' || e.target.id === 'search-icon') ***REMOVED***
-		    if(!active) ***REMOVED***
-		      searchBtn.classList.add('active');
-		      searchInput.classList.add('active');
-		      active = true;
-		    ***REMOVED***
-		  ***REMOVED*** else ***REMOVED***
-		      searchBtn.classList.remove('active');
-		      searchInput.classList.remove('active');
-		      searchInput.value = '';
-		      active = false;
-		  ***REMOVED***
-		***REMOVED***);
-	</script>
+		<!-- <script type="text/javascript">
+			const body = document.querySelector('body');
+			const searchBtn = document.querySelector('#search');
+			const searchInput = document.querySelector('#search-input');
+			let active = false;
+			body.addEventListener('click', (e) => ***REMOVED***
+			  if(e.target.id === 'search' || e.target.id === 'search-input' || e.target.id === 'search-icon') ***REMOVED***
+				if(!active) ***REMOVED***
+				  searchBtn.classList.add('active');
+				  searchInput.classList.add('active');
+				  active = true;
+				***REMOVED***
+			  ***REMOVED*** else ***REMOVED***
+				  searchBtn.classList.remove('active');
+				  searchInput.classList.remove('active');
+				  searchInput.value = '';
+				  active = false;
+			  ***REMOVED***
+			***REMOVED***);
+		</script> -->
 </body>
 </HTML>

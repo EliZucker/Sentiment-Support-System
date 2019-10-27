@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="***REMOVED******REMOVED***url_for('static', filename='display_results.css')***REMOVED******REMOVED***">
 	<link rel="stylesheet" type="text/css" href="***REMOVED******REMOVED***url_for('static', filename='style.css')***REMOVED******REMOVED***">
 </head>
-    <table>
+<body>
+    <table id="results" width="100%" height="100%">
     	<col width="40%">
-    	<tr>
+    	<tr class="header_row">
     		<th>Text</th>
     		<th>Sentiment</th>
     		<th>Datestamp</th>
     	</tr>
     	***REMOVED***% for x in tweets %***REMOVED***
-			<tr>
+			<tr class="body_row">
 			    <td>***REMOVED******REMOVED*** x["sentiment [original]"] ***REMOVED******REMOVED***</td>
 			    <td>***REMOVED******REMOVED*** x["sentiment"] ***REMOVED******REMOVED***</td>
 			    <td>***REMOVED******REMOVED*** x["timestamp"] ***REMOVED******REMOVED***</td>
 		  	</tr>
     	***REMOVED***% endfor %***REMOVED***
     </table>
-
+</body>
 </html>

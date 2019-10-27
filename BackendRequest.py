@@ -51,24 +51,24 @@ def do_search():
             x = x.where('sentiment', '<=', high_sentiment)
         return x
 
-    # data = gdb.get_data_from_sources(sources, query=query)
-    one = ***REMOVED***'sentiment': -0.5, 'sentiment [original]': 'fuck12', 'timestamp': 5***REMOVED***
-    two = ***REMOVED***'sentiment': -0.5, 'sentiment [original]': 'finkelcjsmm', 'timestamp': 7***REMOVED***
-    example = [one, two]
-    return render_template('display_results.html', tweets=example)
+    data = gdb.get_data_from_sources(sources, query=query)
+    # one = ***REMOVED***'sentiment': -0.5, 'sentiment [original]': 'fuck12', 'timestamp': 5***REMOVED***
+    # two = ***REMOVED***'sentiment': -0.5, 'sentiment [original]': 'finkelcjsmm', 'timestamp': 7***REMOVED***
+    # example = [one, two]
+    # return render_template('display_results.html', tweets=example)
 
-    # if sentiment_str is not None:
-    #     output = ***REMOVED******REMOVED***
-    #     for key in data:
-    #         for datum in data[key]:
-    #             if sentiment_str in datum['sentiment [original]']:
-    #                 temp = output.get(key, list())
-    #                 temp.append(datum)
-    #                 output[key] = temp
-    #         # return render_template('display_results.html', tweets=data[key])
-    #         return render_template('display_results.html', tweets=example)
+    if sentiment_str is not None:
+        output = ***REMOVED******REMOVED***
+        for key in data:
+            for datum in data[key]:
+                if sentiment_str in datum['sentiment [original]']:
+                    temp = output.get(key, list())
+                    temp.append(datum)
+                    output[key] = temp
+            return render_template('display_results.html', tweets=data[key])
+            #return render_template('display_results.html', tweets=example)
 
-    # return data
+    return data
 
 
 
