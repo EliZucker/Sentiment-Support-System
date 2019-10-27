@@ -1,6 +1,7 @@
 <HTML>
 <head>
 	<link rel="stylesheet" type="text/css" href="***REMOVED******REMOVED***url_for('static', filename='style.css')***REMOVED******REMOVED***">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 </head>
 <body>
 	<form>
@@ -10,6 +11,17 @@
 		<div id="search">
 		<i class="fas fa-search" id="search-icon"></i>
 		<form action="/search/" method="get">
+			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+			  <label class="btn btn-secondary active">
+			    <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+			  </label>
+			  <label class="btn btn-secondary">
+			    <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+			  </label>
+			  <label class="btn btn-secondary">
+			    <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+			  </label>
+			</div>
 			<input type="hidden" name="sources" value="['jetblue_twitter']">
 			<input type="text" id="search-input" name="sentiment_str" autocomplete="off">
 		</form>

@@ -133,14 +133,15 @@ def signal_handler(sig, frame):
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=chrome_options)
-# driver = webdriver.PhantomJS()
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-gpu')
+# driver = webdriver.Chrome(chrome_options=chrome_options)
+driver = webdriver.PhantomJS()
+
 driver.set_window_size(1120, 550)
-login()
+# login()
 retries = 0
 print(get_carrier_data("JBU"))
 with open('missed_flights.txt', 'w') as file:
