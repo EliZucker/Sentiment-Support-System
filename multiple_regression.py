@@ -20,6 +20,7 @@ def extract_sources_label_per_day(gdb, sources, start_day, end_day, label):
     start = start_day
     end = end_day
     while start <= end:
+        print(start)
         sentiment_list_for_day = gdb.get_data_from_sources_in_range(sources, start, start + day)
 
         sentiment_sum = 0
