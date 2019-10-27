@@ -53,6 +53,7 @@ def get_delay_for_flight(link):
 		retries = retries + 1
 		if(retries > 2):
 			retries = 0
+			login()
 			return -1;
 		else:
 			print("Waiting " + str(5 * retries) + "...")
@@ -114,13 +115,11 @@ def write_to_file(dictionary):
 	with open('data.txt', 'w') as file:
 	     file.write(json.dumps(dictionary))
 
-
 def signal_handler(sig, frame):
         print('You pressed Ctrl+C!')
         driver.quit()
         sys.exit(0)
 
-	
 signal.signal(signal.SIGINT, signal_handler)
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
@@ -154,8 +153,6 @@ for m in missed_flights:
 # print(get_flight_delay_data("JBU101"))
 # get_flight_links("JBU101")
 # get_carrier_data("JBU")
-
-
 
 # link = "https://flightaware.com/live/flight/JBU1056/history/20191026/1926Z/MBPV/KJFK"
 # get_delay_for_flight(link)
