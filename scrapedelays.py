@@ -8,8 +8,8 @@ import sys
 import json
 import time
 
-missed_flights = ***REMOVED******REMOVED***
-retries = 0
+missed_flights = []
+
 
 def login():
 	driver.get('https://flightaware.com/account/login')
@@ -37,10 +37,12 @@ def get_flights_per_carrier(carrier):
 	return allflights
 
 def get_delay_for_flight(link):
+	global retries
 	url = link
-	driver.get(url)
 	try:
+		driver.get(url)
 		delay_descrip = driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", "")
+		# raise Exception('spam', 'eggs')
 		if(delay_descrip.find("late") == -1):
 			return 0
 		else:
@@ -52,8 +54,8 @@ def get_delay_for_flight(link):
 			retries = 0
 			return -1;
 		else:
-			print("Waiting...")
-			time.sleep(10 * (retries**2))
+			print("Waiting " + str(5 * retries) + "...")
+			time.sleep(5 * (retries))
 			return get_delay_for_flight(link)
 	# print(driver.find_element_by_class_name("flightPageArrivalDelayStatus").text.replace("(", "").replace(")", ""))
 
@@ -91,7 +93,7 @@ def get_flight_delay_data(flight, storage):
 			#skip this flight
 			print("Skipping flight")
 			missed_flights.append(flight)
-			print("Missed flights: " + missed_flights)
+			print("Missed flights: " + str(missed_flights))
 		else:
 			datum["delays"] = datum["delays"] + delay
 			datum["tot"] = datum["tot"] + 1
@@ -119,14 +121,18 @@ def signal_handler(sig, frame):
 
 	
 signal.signal(signal.SIGINT, signal_handler)
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=chrome_options)
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-gpu')
+# driver = webdriver.Chrome(chrome_options=chrome_options)
+driver = webdriver.PhantomJS()
 driver.set_window_size(1120, 550)
 login()
+retries = 0
 print(get_carrier_data("JBU"))
+with open('missed_flights.txt', 'w') as file:
+	     file.write(json.dumps(missed_flights))
 for m in missed_flights:
 	get_flight_delay_data(m, overall)
 	print(overall)
